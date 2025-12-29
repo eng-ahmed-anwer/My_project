@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHYS101 Final Exam | Minia University</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & THEME --- */
+        :root {
+            --primary: #003366; /* Minia University Blue */
+            --primary-light: #004d99;
+            --accent: #b9925b; /* Gold/Bronze Accent */
+            --bg-body: #f0f2f5;
+            --bg-card: #ffffff;
+            --text-main: #2d3436;
+            --text-light: #636e72;
+            --success: #27ae60;
+            --error: #c0392b;
+            --shadow-soft: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+            --shadow-inset: inset 5px 5px 10px #d1d9e6, inset -5px -5px 10px #ffffff;
+            --radius: 16px;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        .ar { font-family: 'Cairo', sans-serif; } /* Arabic Utility Class */
+
+        /* --- HEADER --- */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 5px solid var(--accent);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header .sub-header {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 800px;
+            margin: -30px auto 0;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- EXAM STATS --- */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* --- QUESTION CARD --- */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.3s ease;
+            border-left: 5px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card.answered-correct { border-left-color: var(--success); }
+        .card.answered-wrong { border-left-color: var(--error); }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .q-number {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .q-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- OPTIONS (Grid Layout) --- */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        /* For desktop, MCQ can be 2 columns if text is short, but 1 col is safer for lengthy physics answers */
+        @media (min-width: 600px) {
+            .options-grid.mcq { grid-template-columns: 1fr 1fr; }
+        }
+
+        .option-btn {
+            background: var(--bg-body);
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            color: var(--text-main);
+            box-shadow: -2px -2px 5px rgba(255,255,255,0.7), 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .option-btn:hover {
+            background: #e1e4ea;
+            transform: scale(1.01);
+        }
+
+        /* Selection States */
+        .option-btn.selected {
+            background: var(--primary);
+            color: white;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .option-btn.correct-highlight {
+            background: var(--success) !important;
+            color: white !important;
+        }
+
+        .option-btn.wrong-highlight {
+            background: var(--error) !important;
+            color: white !important;
+        }
+
+        /* --- ACTIONS FOOTER --- */
+        .card-footer {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-check {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,51,102,0.3);
+            transition: 0.3s;
+        }
+
+        .btn-check:hover { background: var(--primary-light); }
+
+        .btn-explain {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .btn-explain:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* --- EXPLANATION BOX --- */
+        .explanation-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #eef7fc;
+            border-radius: 8px;
+            border: 1px solid #dbe9f1;
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.4s ease;
+        }
+
+        .explanation-box.visible { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        @media (max-width: 600px) {
+            .explanation-box.visible { grid-template-columns: 1fr; }
+        }
+
+        .exp-col {
+            font-size: 0.9rem;
+        }
+        .exp-col h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .feedback-msg {
+            font-weight: bold;
+            margin-right: auto;
+            padding-left: 10px;
+        }
+        .feedback-msg.success { color: var(--success); }
+        .feedback-msg.error { color: var(--error); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>General Physics (1)</h1>
+    <div class="sub-header">
+        Minia University | Faculty of Science | IT Program<br>
+        <span class="ar">جامعة المنيا - كلية العلوم</span>
+    </div>
+</header>
+
+<div class="container">
+    
+    <div class="stats-bar">
+        <span>Final Exam 2025</span>
+        <span id="score-display">Score: 0 / 50</span>
+    </div>
+
+    <div id="quiz-app">
+        </div>
+
+</div>
+
+<script>
+    /**
+     * DATABASE OF 50 QUESTIONS
+     * Extracted from the provided Physics Exam PDF.
+     * T/F = True/False, MCQ = Multiple Choice
+     */
+    const examData = [
+        // --- TRUE / FALSE SECTION (1-25) ---
+        {
+            id: 1, type: 'TF',
+            text: "Temperature is commonly associated with how hot or cold a body feels, while heat is the exchange of energy between two objects at different temperatures.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "Correct. Temperature is a state variable (hotness), while Heat (Q) is energy in transit due to temperature difference.",
+            expAr: "صحيح. درجة الحرارة تعبر عن سخونة الجسم، بينما الحرارة هي تبادل الطاقة نتيجة فرق درجات الحرارة."
+        },
+        {
+            id: 2, type: 'TF',
+            text: "A reliable and reproducible method IS NOT needed to make quantitative measurements of the 'hotness' or 'coldness' of objects.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. A reliable scale (thermometer) is absolutely needed for quantitative physics.",
+            expAr: "خطأ. نحتاج بالضرورة لطريقة موثوقة (مقياس حرارة) لقياس السخونة والبرودة كمياً."
+        },
+        {
+            id: 3, type: 'TF',
+            text: "Two objects are in thermal equilibrium if they are in thermal contact and there is a NET exchange of energy.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. Thermal equilibrium means NO net exchange of energy occurs.",
+            expAr: "خطأ. الاتزان الحراري يعني عدم وجود تبادل صافي للطاقة بين الجسمين."
+        },
+        {
+            id: 4, type: 'TF',
+            text: "If objects A and B are separately in thermal equilibrium with a third object C, then A and B are NOT in thermal equilibrium with each other.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. The Zeroth Law of Thermodynamics states they ARE in equilibrium.",
+            expAr: "خطأ. القانون الصفري للديناميكا الحرارية ينص على أنهم في حالة اتزان مع بعضهم البعض."
+        },
+        {
+            id: 5, type: 'TF',
+            text: "Heat is defined as the property that determines whether or not an object is in thermal equilibrium with others.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. TEMPERATURE is the property that determines thermal equilibrium.",
+            expAr: "خطأ. درجة الحرارة هي الخاصية التي تحدد الاتزان الحراري، وليست الحرارة."
+        },
+        {
+            id: 6, type: 'TF',
+            text: "For accurate temperature readings, the object must be much smaller than the thermometer.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. The thermometer should be much smaller than the object to avoid altering the object's temperature.",
+            expAr: "خطأ. يجب أن يكون الترمومتر أصغر بكثير من الجسم حتى لا يؤثر على درجة حرارته."
+        },
+        {
+            id: 7, type: 'TF',
+            text: "All thermometers make use of some physical property that changes with temperature.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. Examples include expansion of liquid, resistance, or pressure.",
+            expAr: "صحيح. تعتمد جميع الترمومترات على تغير خاصية فيزيائية (مثل الحجم أو المقاومة) مع الحرارة."
+        },
+        {
+            id: 8, type: 'TF',
+            text: "The temperature is defined in terms of the pressure of the liquid column in an alcohol thermometer.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. Liquid thermometers use Volume Expansion, not pressure.",
+            expAr: "خطأ. الترمومتر الكحولي يعتمد على تمدد الحجم وليس الضغط."
+        },
+        {
+            id: 9, type: 'TF',
+            text: "Mercury and alcohol have the exact same thermal expansion properties.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. Different materials have different coefficients of expansion.",
+            expAr: "خطأ. لكل مادة معامل تمدد حراري مختلف."
+        },
+        {
+            id: 10, type: 'TF',
+            text: "The steam point (373.15 K) corresponds to 100°C, and the ice point (273.15 K) is equivalent to 0°C.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. K = C + 273.15.",
+            expAr: "صحيح. هذه هي نقاط الغليان والتجمد المعيارية للماء."
+        },
+        {
+            id: 11, type: 'TF',
+            text: "The constant-volume gas thermometer was calibrated using absolute zero and the triple point of water.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. These are the two fixed points for the Kelvin scale definition.",
+            expAr: "صحيح. يتم المعايرة باستخدام الصفر المطلق والنقطة الثلاثية للماء."
+        },
+        {
+            id: 12, type: 'TF',
+            text: "The triple point of water is a single temperature and pressure at which water, water vapor, and ice can coexist in equilibrium.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. It occurs specifically at 0.01°C and 0.006 atm.",
+            expAr: "صحيح. هي حالة فريدة تتواجد فيها الحالات الثلاث للماء معاً."
+        },
+        {
+            id: 13, type: 'TF',
+            text: "A temperature of 41°F corresponds to a Celsius temperature of 1°C.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. C = (41 - 32) * 5/9 = 5°C.",
+            expAr: "خطأ. 41 فهرنهايت تساوي 5 درجات مئوية."
+        },
+        {
+            id: 14, type: 'TF',
+            text: "The value of the coefficient of linear expansion (α) is twice that of the coefficient of area expansion (γ).",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. Area expansion (γ) is roughly 2α. So γ = 2α, not α = 2γ.",
+            expAr: "خطأ. معامل تمدد المساحة هو ضعف الطولي، وليس العكس."
+        },
+        {
+            id: 15, type: 'TF',
+            text: "Steel track L=50m at 0°C. At 40°C, is its length 30.013 m?",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. Heating expands it. It should be > 50m (approx 50.022m). It cannot shrink to 30m.",
+            expAr: "خطأ. الحرارة تسبب التمدد، لذا يجب أن يكون الطول أكبر من 50 متر."
+        },
+        {
+            id: 16, type: 'TF',
+            text: "The tension of wires in a piano increases when the temperature decreases.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. Cooling causes contraction, tightening the wires and increasing tension.",
+            expAr: "صحيح. البرودة تسبب انكماش الأسلاك مما يزيد من قوة الشد."
+        },
+        {
+            id: 17, type: 'TF',
+            text: "The change in depth of the ocean (4000m) due to 10°C change is 0.3m. (β=2.07×10⁻⁴).",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. ΔL = L₀βΔT = 4000 * 2.07e-4 * 10 ≈ 8.28m.",
+            expAr: "خطأ. التغير المحسوب يكون حوالي 8.28 متر وليس 0.3."
+        },
+        {
+            id: 18, type: 'TF',
+            text: "As temperature increases from 0°C to 4°C, water contracts, so its density decreases.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. Water contracts (anomalous behavior), so its density INCREASES.",
+            expAr: "خطأ. الماء ينكمش بين 0 و 4 درجات، وبالتالي تزداد كثافته."
+        },
+        {
+            id: 19, type: 'TF',
+            text: "Raising the temperature of one gram of water by 1°C requires 4.186 J of energy.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. This is the definition of the specific heat of water (1 calorie).",
+            expAr: "صحيح. هذه هي الحرارة النوعية للماء."
+        },
+        {
+            id: 20, type: 'TF',
+            text: "Heat is the transfer of thermal energy, just as work is the transfer of mechanical energy.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. Both are mechanisms of energy transfer.",
+            expAr: "صحيح. كلاهما وسيلة لنقل الطاقة."
+        },
+        {
+            id: 21, type: 'TF',
+            text: "The movement of cooler air toward the beach (sea breeze) is because the specific heat of water is higher than that of sand.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. Sand heats up faster, air rises, and cool air from the sea replaces it.",
+            expAr: "صحيح. حرارة الماء النوعية العالية تجعله يسخن ببطء مقارنة بالرمل."
+        },
+        {
+            id: 22, type: 'TF',
+            text: "Conduction occurs only if there is a difference in temperature between two parts of the conducting medium.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. ΔT is the driving force for heat conduction.",
+            expAr: "صحيح. فرق درجات الحرارة هو المحرك الأساسي للتوصيل."
+        },
+        {
+            id: 23, type: 'TF',
+            text: "The rate of conduction P = Q/Δt is directly proportional to Area and inversely proportional to Thickness.",
+            options: ["True", "False"],
+            correctIndex: 0,
+            expEn: "True. P = kA(ΔT/L).",
+            expAr: "صحيح. معدل التوصيل طردي مع المساحة وعكسي مع السمك."
+        },
+        {
+            id: 24, type: 'TF',
+            text: "The transfer of heat energy by the movement of a substance is called radiation.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. Transfer by movement of matter is Convection. Radiation needs no medium.",
+            expAr: "خطأ. نقل الحرارة بحركة المادة يسمى الحمل الحراري."
+        },
+        {
+            id: 25, type: 'TF',
+            text: "The rate at which an object radiates energy is proportional to the third power of its absolute temperature.",
+            options: ["True", "False"],
+            correctIndex: 1,
+            expEn: "False. According to Stefan-Boltzmann law, it is proportional to the FOURTH power (T⁴).",
+            expAr: "خطأ. الإشعاع يتناسب مع الأس الرابع لدرجة الحرارة."
+        },
+
+        // --- MCQ SECTION (26-50) ---
+        {
+            id: 26, type: 'MCQ',
+            text: "The definition of the meter establishes that the speed of light in vacuum is precisely:",
+            options: ["299 792 458 m/s", "300 000 000 m/s", "3 × 10⁸ m/s", "Undefined"],
+            correctIndex: 0,
+            expEn: "The meter is defined based on the constant speed of light c = 299,792,458 m/s.",
+            expAr: "المتر معرف بناءً على سرعة الضوء الدقيقة."
+        },
+        {
+            id: 27, type: 'MCQ',
+            text: "A solar day is the time interval between successive appearances of _____ at the highest point in the sky.",
+            options: ["The Moon", "The Sun", "A Star", "A Satellite"],
+            correctIndex: 1,
+            expEn: "A solar day is based on the Sun's position relative to Earth.",
+            expAr: "اليوم الشمسي يعتمد على موقع الشمس."
+        },
+        {
+            id: 28, type: 'MCQ',
+            text: "The unit and dimensions of Force are _____ while those of Work are _____?",
+            options: [
+                "m kg/s, MLT⁻¹ ... m² kg/s, ML²T⁻¹",
+                "m kg/s², MLT⁻² ... m² kg/s², ML²T⁻²",
+                "m² kg/s², ML²T⁻² ... m kg/s², MLT⁻²"
+            ],
+            correctIndex: 1,
+            expEn: "Force = mass × acc (kg m/s²). Work = Force × dist (kg m²/s²).",
+            expAr: "القوة (نيوتن) والشغل (جول)."
+        },
+        {
+            id: 29, type: 'MCQ',
+            text: "_____ can be used to check the correctness of equations and deduce some laws in physics.",
+            options: ["Unit conversion", "Dimensional 
