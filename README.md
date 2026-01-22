@@ -1,8 +1,38 @@
+ProfileMe.dev
 
+
+Introduction
+Skills
+Socials
+Badges
+Support
+Go home
+© 2026 Dan Cranney
+
+Follow me
+|
+Buy Me a Coffee
+Support
+Make it easy for people using your products to support you or give donations.
+
+
+Previous
+buymeacoffee
+Buy Me a Coffee:
+yourname
+kofi
+Ko-fi:
+yourname
+
+Previous
+Reorder Sections
+Preview
+Markdown
+Copy
 Hi ![](https://user-images.githubusercontent.com/18350557/176309783-0785949b-9127-417c-8b55-ab5a4333674e.gif) My name is AHMED ANWER AHMED
 ==========================================================================================================================================
 
-Student in Faculty of Computer Science and Information Technology || Junior Front-End Developer || Penetration Testing || Bug Bounty Hunter || McKinsey Forward || Problem Solving
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 🎓 Computer Science & Information Technology Student
@@ -27,11 +57,10 @@ Student in Faculty of Computer Science and Information Technology || Junior Fron
 <p align="left"> <a href="https://www.github.com/eng-ahmed-anwer" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /> </picture> </a> <a href="https://www.linkedin.com/in/ahmed-anwer-elkomy" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" title="LinkedIn" /> </picture> </a> <a href="https://www.facebook.com/eng.abo.anwer" target="_blank" rel="noreferrer"> <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/facebook-dark.svg" /> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/facebook.svg" /> <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/facebook.svg" width="32" height="32" alt="Facebook" title="Facebook" /> </picture> </a></p>
 <a href="https://www.github.com/eng-ahmed-anwer" target="_blank" rel="noreferrer"><img
 src="https://img.shields.io/github/followers/eng-ahmed-anwer?logo=github&style=for-the-badge&color=64748b&labelColor=713f12" /></a>
-### Badges
+
 
 <b>My GitHub Stats</b>
 
 <a href="http://www.github.com/eng-ahmed-anwer"><img src="https://github-readme-stats.vercel.app/api?username=eng-ahmed-anwer&show_icons=true&hide=&count_private=true&title_color=000000&text_color=0f172a&icon_color=64748b&bg_color=713f12&hide_border=true&show_icons=true" alt="eng-ahmed-anwer's GitHub stats" /></a>
 
 <a href="http://www.github.com/eng-ahmed-anwer"><img src="https://github-readme-streak-stats.herokuapp.com/?user=eng-ahmed-anwer&stroke=0f172a&background=713f12&ring=000000&fire=000000&currStreakNum=0f172a&currStreakLabel=000000&sideNums=0f172a&sideLabels=0f172a&dates=0f172a&hide_border=true" /></a>
-
